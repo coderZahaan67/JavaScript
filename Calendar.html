@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background: #eef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh
+        }
+
+        .cal {
+            width: 340px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 16px 30px rgba(0, 0, 0, .12);
+            overflow: hidden
+        }
+
+        .cal h1 {
+            margin: 0;
+            padding: 16px;
+            text-align: center;
+            background: #3b82f6;
+            color: #fff;
+            font-size: 20px
+        }
+
+        .grid {
+            padding: 18px
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 8px
+        }
+
+        .day {
+            padding: 12px;
+            border-radius: 12px;
+            background: #f8fafc;
+            color: #0f172a;
+            font-weight: 600
+        }
+
+        .today {
+            background: #bfdbfe;
+            color: #1e40af
+        }
+
+        .empty {
+            background: transparent
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cal">
+        <h1 id="title"></h1>
+        <div class="grid">
+            <div class="row">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+            </div>
+            <div id="days" class="row"></div>
+        </div>
+    </div>
+    <script>
+        const now = new Date();
+        const title = document.getElementById("title");
+        const days = document.getElementById("days");
+        const m = now.getMonth();
+        const y = now.getFullYear();
+        const names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        title.textContent = names[m] + " " + y;
+        const start = new Date(y, m, 1).getDay();
+        const total = new Date(y, m + 1, 0).getDate();
+        for (let i = 0; i < start; i++)days.innerHTML += "<div class='day empty'></div>";
+        for (let d = 1; d <= total; d++) {
+            const cls = "day" + (d === now.getDate() ? " today" : "");
+            days.innerHTML += `<div class="${cls}">${d}</div>`;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Text to Speech App</title>
+</head>
+
+<body>
+    <h1>Text to Speech App</h1>
+
+    <textarea id="text" rows="5" cols="50" placeholder="Enter text here..."></textarea><br><br>
+
+    <button onclick="speakText()">Speak</button>
+
+    <script>
+        function speakText() {
+            const text = document.getElementById("text").value;
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.rate = 1;   // Speed (0.1 to 10)
+            speech.volume = 1; // Volume (0 to 1)
+            speech.pitch = 1;  // Pitch (0 to 2)
+            window.speechSynthesis.speak(speech);
+        }
+    </script>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Math Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background: #f3f6ff;
+            color: #1f2937;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 16px 40px rgba(15,23,42,0.12);
+            max-width: 480px;
+            width: 100%;
+            padding: 28px;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 28px;
+            text-align: center;
+            color: #111827;
+        }
+        .controls,
+        .game-box {
+            margin-top: 20px;
+        }
+        button,
+        select,
+        input[type="number"] {
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 16px;
+        }
+        button {
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+            transition: background 0.2s ease;
+            min-width: 120px;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 12px;
+            background: #eef2ff;
+        }
+        .score-list {
+            margin: 12px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+        .score-list li {
+            margin: 6px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Math Games</h1>
+        <div class="controls">
+            <label for="mode">Choose a game:</label>
+            <select id="mode">
+                <option value="addition">Addition</option>
+                <option value="subtraction">Subtraction</option>
+                <option value="multiplication">Multiplication</option>
+            </select>
+            <button id="startButton">Start Game</button>
+        </div>
+        <div class="game-box" id="gameBox" style="display: none;">
+            <p id="questionText"></p>
+            <input type="number" id="answerInput" placeholder="Type your answer" />
+            <button id="submitButton">Submit</button>
+            <button id="nextButton" style="display: none;">Next</button>
+            <div class="status" id="resultText">Your score will show here.</div>
+            <ul class="score-list" id="scoreList"></ul>
+        </div>
+    </div>
+
+    <script>
+        const modeSelect = document.getElementById('mode');
+        const startButton = document.getElementById('startButton');
+        const gameBox = document.getElementById('gameBox');
+        const questionText = document.getElementById('questionText');
+        const answerInput = document.getElementById('answerInput');
+        const submitButton = document.getElementById('submitButton');
+        const nextButton = document.getElementById('nextButton');
+        const resultText = document.getElementById('resultText');
+        const scoreList = document.getElementById('scoreList');
+
+        let currentAnswer = null;
+        let score = 0;
+        let totalQuestions = 0;
+        let currentMode = 'addition';
+
+        function generateProblem(mode) {
+            const min = 1;
+            const max = 12;
+            const a = Math.floor(Math.random() * (max - min + 1)) + min;
+            const b = Math.floor(Math.random() * (max - min + 1)) + min;
+            let question;
+            switch (mode) {
+                case 'addition':
+                    currentAnswer = a + b;
+                    question = `${a} + ${b} = ?`;
+                    break;
+                case 'subtraction':
+                    const larger = Math.max(a, b);
+                    const smaller = Math.min(a, b);
+                    currentAnswer = larger - smaller;
+                    question = `${larger} - ${smaller} = ?`;
+                    break;
+                case 'multiplication':
+                    currentAnswer = a * b;
+                    question = `${a} × ${b} = ?`;
+                    break;
+            }
+            questionText.textContent = question;
+            answerInput.value = '';
+            answerInput.focus();
+            resultText.textContent = 'Enter your answer and press Submit.';
+            submitButton.style.display = 'inline-block';
+            nextButton.style.display = 'none';
+        }
+
+        function updateScoreMessage() {
+            resultText.textContent = `Score: ${score} / ${totalQuestions}`;
+            scoreList.innerHTML = `
+                <li>Game mode: ${currentMode}</li>
+                <li>Correct answers: ${score}</li>
+                <li>Questions answered: ${totalQuestions}</li>
+            `;
+        }
+
+        startButton.addEventListener('click', () => {
+            currentMode = modeSelect.value;
+            score = 0;
+            totalQuestions = 0;
+            gameBox.style.display = 'block';
+            generateProblem(currentMode);
+            updateScoreMessage();
+        });
+
+        submitButton.addEventListener('click', () => {
+            const answer = Number(answerInput.value);
+            if (answerInput.value === '') {
+                resultText.textContent = 'Please type an answer before submitting.';
+                return;
+            }
+            totalQuestions += 1;
+            if (answer === currentAnswer) {
+                score += 1;
+                resultText.textContent = '✅ Correct! Nice work.';
+            } else {
+                resultText.textContent = `❌ Wrong. The correct answer was ${currentAnswer}.`;
+            }
+            updateScoreMessage();
+            submitButton.style.display = 'none';
+            nextButton.style.display = 'inline-block';
+        });
+
+        nextButton.addEventListener('click', () => {
+            generateProblem(currentMode);
+            updateScoreMessage();
+        });
+
+        answerInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                submitButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
