@@ -1,0 +1,28 @@
+<html>
+    <body>
+        <script>
+            class Car {
+                constructor(brand) {
+                    this.bname = brand;
+                }
+                present() {
+                    return 'I have a ' + this.bname;
+                }
+            }
+            class model extends Car {
+                constructor(b,m) {
+                    super(b);
+                    this.model = m;
+                }
+                show() {
+                    return this.present() + ', it is a ' + this.model;
+                }
+                static year(x) {
+                    return 'I purchased it in ' + x;
+                }
+            }
+            obj = new model("BMW", "X5");
+            document.write(obj.show() + "<br>");
+        </script>
+    </body>
+</html>
