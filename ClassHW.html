@@ -1,0 +1,30 @@
+<html>
+
+<body>
+    <script>
+        class Dog {
+            constructor(breeds) {
+                this.bname = breeds;
+            }
+            present() {
+                return 'I have a ' + this.bname;
+            }
+        }
+        class model extends Dog {
+            constructor(b, n) {
+                super(b);
+                this.name = n;
+            }
+            show() {
+                return this.present() + ', his name is ' + this.name;
+            }
+            static year(d) {
+                return 'I got him in ' + d;
+            }
+        }
+        obj = new model("Doodle", "Nugget");
+        document.write(obj.show() + "<br>");
+    </script>
+</body>
+
+</html>
