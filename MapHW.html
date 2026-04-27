@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <p>Multiply every element in the array by 100:</p>
+    <button onclick="ascending()">Ascending Order</button>
+    <button onclick="descending()">Descending Order</button>
+    <p id="result"></p>
+    <p id="product_value"></p>
+    <script>
+        var nos = [13.1, 28.1, 3.1, 9.2111, 82.1];
+        function myFunction(num) {
+            return num * 100;
+        }
+        var newarray = nos.map(myFunction);
+        document.getElementById("product_value").innerHTML = newarray;
+    function ascending() {
+        newarray.sort(function (a, b) { return a - b });
+        document.getElementById("result").innerHTML = newarray;
+    }
+    function descending() {
+        newarray.sort(function (a, b) { return b - a });
+        document.getElementById("result").innerHTML = newarray;
+    }
+    </script>
+</body>
+
+</html>
